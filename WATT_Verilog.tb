@@ -1,0 +1,31 @@
+module WATT_Verilog_tb();
+	reg	A;
+    reg B;
+    wire	s_sum, p_sum, c_sum;
+    wire	s_carry, p_carry, c_carry;	
+    integer i;
+    
+	structural_adder	structural_adder(A,B, s_sum, s_carry);
+    procedural_adder procedural_adder(A,B, p_sum, p_carry);
+    continuous_adder continuous_adder(A,B, c_sum, c_carry);
+    
+  initial begin
+  	$dumpfile("timing.vcd");
+    $dumpvars;
+    
+  	$display("Hello World!");
+    for(i=16'b0; i<10; i=i+1) begin
+      A = $urandom;
+      B = $urandom;
+      $display("A: %d, B: %d", A, B);
+      
+      #2
+      $display("Procedural sum: %d carry %d", p_sum, p_carry);
+      
+      $display("Continuous sum: %d carry %d", c_sum, c_carry);
+      
+      $display("Structural sum: %d carry %d", s_sum, s_carry);
+      
+    end
+   end
+endmodule
